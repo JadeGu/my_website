@@ -1,5 +1,5 @@
 # Site settings
-baseURL = "http://jadegu.netlify.app/"
+baseURL = "http://jadeguzy.netlify.app/"
 languageCode = "en-us"
 title = "Jade"
 theme = "forty"
