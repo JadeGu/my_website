@@ -1,7 +1,7 @@
 # Site settings
 baseURL = "http://jadeguzy.netlify.app/"
 languageCode = "en-us"
-title = "Jade"
+title = "Portfolio Website for Jade Gu"
 theme = "forty"
 
 # Enter your tracking code to enable Google Analytics
@@ -19,8 +19,8 @@ disqusShortname = ""
   # CSS class.
 
   # Provide your metadata here.
-  name = "Your name"
-  description = "Your description"
+  name = "Jade Gu"
+  description = "Hi, I am a Masters in Financial Analysis student at London Business School."
 
   # Link custom assets relative to /static
   custom_css = []
