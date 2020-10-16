@@ -1,5 +1,5 @@
 # Site settings
-baseURL = "http://jadeguzy.netlify.app/"
+baseURL = "https://jadeguzy.netlify.app/"
 languageCode = "en-us"
 title = "Portfolio Website for Jade Gu"
 theme = "forty"
@@ -20,7 +20,7 @@ disqusShortname = ""
 
   # Provide your metadata here.
   name = "Jade Gu"
-  description = "Hi, I am a Masters in Financial Analysis student at London Business School."
+  description = "Hi there, I am a Masters in Financial Analysis student at London Business School."
 
   # Link custom assets relative to /static
   custom_css = []
