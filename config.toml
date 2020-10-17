@@ -92,10 +92,10 @@ disqusShortname = ""
     # Display your showcases here.
     
     [[params.tiles.showcase]]
-      title = "HR Analytics"
-      subtitle = "Ipsum Dolor Sit Amet"
-      image = "pic01.jpg"
-      url = "blogs/aliquam"
+      title = "IBM HR Analytics"
+      subtitle = "Employee Attrition & Performane Analysis"
+      image = "pic11.jpg"
+      url = "content/blogs/HR" 
 
     [[params.tiles.showcase]]
       title = "Tempus"
