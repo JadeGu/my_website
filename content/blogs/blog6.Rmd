@@ -9,14 +9,12 @@ Let us revisit the [CDC Covid-19 Case Surveillance Data](https://data.cdc.gov/Ca
 
 First, we load the data
 ```{r, cache=TRUE}
-# file contains 11 variables and 3.66m rows and is well over 380Mb. 
 
 # URL link to CDC to download data
 url <- "https://data.cdc.gov/api/views/vbim-akqf/rows.csv?accessType=DOWNLOAD"
 
-covid_data <- read_csv(url)%>% 
+covid_data <- vroom(url)%>%
   clean_names()
-
 
 ```
 
