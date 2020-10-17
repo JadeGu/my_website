@@ -98,9 +98,9 @@ disqusShortname = ""
       url = "blogs/blog5" 
 
     [[params.tiles.showcase]]
-      title = "CDC COVID-19 Public Use Data"
-      subtitle = "Analysis of COVID-19 Death Rate"
-      image = "pic12.jpg"
+      title = "IMDB Rating"
+      subtitle = "Rating Analysis of Tim Burton and Steven Spielberg"
+      image = "pic13.jpg"
       url = "blogs/blog6"
 
     [[params.tiles.showcase]]
