@@ -13,7 +13,6 @@ disqusShortname = ""
 [params]
   # You can use Markdown syntax for urls [text](//url.to/source)
   # To create multi-line text in strings use the """example Text""" format
-  #
   # All icons using Fontawesome's icon font. Look at fontawesome.io/icons
   # for more icons. The icons are represented by their corresponding
   # CSS class.
@@ -104,28 +103,11 @@ disqusShortname = ""
       url = "blogs/blog6"
 
     [[params.tiles.showcase]]
-      title = "Magna"
-      subtitle = "Lorem Etiam Nullam"
-      image = "pic03.jpg"
-      url = "blogs/magna"
-
-    [[params.tiles.showcase]]
-      title = "Ipsum"
-      subtitle = "Nisl Sed Aliquam"
-      image = "pic04.jpg"
-      url = "blogs/ipsum"
-
-    [[params.tiles.showcase]]
-      title = "Consequat"
-      subtitle = "Ipsum Dolor Sit Amet"
-      image = "pic05.jpg"
-      url = "blogs/ipsum"
-
-    [[params.tiles.showcase]]
-      title = "Etiam"
-      subtitle = "Feugiat Amet Tempus"
-      image = "pic06.jpg"
-      url = "blogs/ipsum"
+      title = "Covid-19 Death Rate"
+      subtitle = "From CDC"
+      image = "pic12.jpg"
+      url = "blogs/blog7"
+      
     # You can make more showcases by copy and pasting the code above
 
   [params.blog]

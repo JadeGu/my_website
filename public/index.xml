@@ -55,6 +55,17 @@ summary(cars) ## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 2
     </item>
     
     <item>
+      <title>Covid-19 Death Rate</title>
+      <link>/blogs/blog7/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/blogs/blog7/</guid>
+      <description>CDC COVID-19 Public Use Data
+Data is from https://data.cdc.gov/Case-Surveillance/COVID-19-Case-Surveillance-Public-Use-Data/vbim-akqf
+# file contains 11 variables and 3.66m rows and is well over 380Mb. # It will take time to download # URL link to CDC to download data url &amp;lt;- &amp;quot;https://data.cdc.gov/api/views/vbim-akqf/rows.csv?accessType=DOWNLOAD&amp;quot; covid_data &amp;lt;- vroom::vroom(url)%&amp;gt;% # If vroom::vroom(url) doesn&amp;#39;t work, use read_csv(url) clean_names() ## Rows: 4,481,062 ## Columns: 11 ## Delimiter: &amp;quot;,&amp;quot; ## chr [8]: current_status, sex, age_group, Race and ethnicity (combined), hosp_yn, icu_yn.</description>
+    </item>
+    
+    <item>
       <title>IBM HR Analytics</title>
       <link>/blogs/blog5/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
