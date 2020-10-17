@@ -1,0 +1,140 @@
+---
+title: "IMDB Ratings"
+output: html_document
+slug: blog6
+image: pic13.jpg
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r load-libraries, include=FALSE}
+library(tidyverse)  
+library(mosaic)
+library(ggthemes)
+library(lubridate)
+library(here)
+library(skimr)
+library(janitor)
+library(httr)
+library(readxl)
+library(vroom)
+library(infer)
+library(blogdown)
+```
+
+```{r load-movies-data}
+movies <- read_csv(here::here("data", "movies.csv"))
+glimpse(movies)
+```
+
+In this project, I would like to test the difference between the ratings of Steven Spielberg and Tim Burton
+
+```{r}
+#First, remake the graph above by filtering the two directors out
+Comp_2director <- movies %>% 
+  group_by(director) %>% 
+  filter(director %in% c("Steven Spielberg", "Tim Burton")) %>% 
+  #Then, use summarize to get statistics we need
+  summarize(
+    mean_rating = round(mean(rating), digits = 2),
+    sd_rating = sd(rating),
+    count = n(),
+    t_critical = qt(0.975, count-1),
+    se = sd_rating/sqrt(count),
+    margin_error = t_critical*se,
+    lower_ci = mean_rating - margin_error,
+    upper_ci = mean_rating + margin_error
+  )
+
+#Next, we plot the Confidence Interval with statistics above
+ggplot(Comp_2director, aes(x = mean_rating,
+                           y = reorder(director, mean_rating),
+                           group = director))+
+  
+        geom_point(aes(color = director), size = 5, show.legend=FALSE) +
+         
+        #make CI error bars 
+        geom_errorbar(aes(xmin = lower_ci, xmax = upper_ci, color = director),
+                      width = .1, size = 5, show.legend = FALSE)+
+  
+        #fill the overlapping part with gray shadow
+        geom_rect(aes(xmin = 7.26, 
+                xmax = 7.33, 
+                ymin = -Inf, 
+                ymax = Inf), alpha = 0.1, size = 0)+
+  
+        
+  
+        #add titles and labels
+        labs(title="Do Spielberg and Burton have the same mean IMDB ratings?",
+        subtitle="95% confidence intervals overlap",
+        x="Mean IMDB Rating",
+        y="") +
+
+        #adjust position of labels
+        geom_text(aes(label = round(lower_ci, 2), x = lower_ci),
+            hjust = 0.2,       
+            vjust = -2,        
+            size  = 7,         
+            color = "black") + 
+  
+  
+        geom_text(aes(label = round(upper_ci, 2), x = upper_ci), 
+            hjust = 0.2,       
+            vjust = -2,        
+            size  = 7,         
+            color = "black")+ 
+  
+        geom_text(aes(label = round(mean_rating, 2), x = mean_rating), 
+            hjust = 0.2,       
+            vjust = -1,      
+            size  = 10,         
+            color = "black")+   
+  
+        theme(plot.title=element_text(face="bold",size=20),
+              plot.subtitle=element_text(size=15),
+              axis.title = element_text(size = 15),
+              axis.text.y.left = element_text(size = 15, color = "black"),
+              axis.text.x.bottom = element_text(size = 15, color = "black"))
+
+
+                           
+
+
+```
+##Now, we are doing a hypothesis test 
+H0: mean rating of Steven = mean rating of Tim
+H1: mean rating of Steven ≠ mean rating of Tim
+
+Conducting a t-test:
+```{r}
+t_test <- movies %>% 
+  filter(director %in% c("Tim Burton", "Steven Spielberg"))
+
+#use t.test
+t.test(rating ~ director, data = t_test)
+
+```
+As we can see above, we yield a t-test with t = 2.7 and a p-value = 0.01. This statistics mean that with our assumption of H0 (the means of the two directors equal), there is a 1% probability that it will happen. Therefore, we can reject H0. 
+
+Now, let's simulate the null distribution as below:
+```{r}
+#first, get difference in the means
+obs_diff <- t_test %>% 
+  specify(rating~director) %>% 
+  calculate(stat = "diff in means", order = c("Steven Spielberg", "Tim Burton"))
+
+
+null_distri <- t_test %>% 
+  specify(rating ~ director) %>% 
+  hypothesize(null = "independence") %>% 
+  generate(reps = 1000, type = "permute") %>%  #generate permutations
+  calculate(stat = "diff in means", order = c("Steven Spielberg", "Tim Burton"))
+
+null_distri %>% 
+  visualize +
+  shade_p_value(obs_stat = obs_diff, direction = "both") #shade the area of p value
+
+
+```

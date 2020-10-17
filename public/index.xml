@@ -64,5 +64,14 @@ summary(cars) ## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 2
 First we loaded the data</description>
     </item>
     
+    <item>
+      <title>IMDB Ratings</title>
+      <link>/blogs/blog6/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/blogs/blog6/</guid>
+      <description>movies &amp;lt;- read_csv(here::here(&amp;quot;data&amp;quot;, &amp;quot;movies.csv&amp;quot;)) ## Parsed with column specification: ## cols( ## title = col_character(), ## genre = col_character(), ## director = col_character(), ## year = col_double(), ## duration = col_double(), ## gross = col_double(), ## budget = col_double(), ## cast_facebook_likes = col_double(), ## votes = col_double(), ## reviews = col_double(), ## rating = col_double() ## ) glimpse(movies) ## Rows: 2,961 ## Columns: 11 ## $ title &amp;lt;chr&amp;gt; &amp;quot;Avatar&amp;quot;, &amp;quot;Titanic&amp;quot;, &amp;quot;Jurassic World&amp;quot;, &amp;quot;The Aveng… ## $ genre &amp;lt;chr&amp;gt; &amp;quot;Action&amp;quot;, &amp;quot;Drama&amp;quot;, &amp;quot;Action&amp;quot;, &amp;quot;Action&amp;quot;, &amp;quot;Action&amp;quot;, … ## $ director &amp;lt;chr&amp;gt; &amp;quot;James Cameron&amp;quot;, &amp;quot;James Cameron&amp;quot;, &amp;quot;Colin Trevorro… ## $ year &amp;lt;dbl&amp;gt; 2009, 1997, 2015, 2012, 2008, 1999, 1977, 2015, 2… ## $ duration &amp;lt;dbl&amp;gt; 178, 194, 124, 173, 152, 136, 125, 141, 164, 93, … ## $ gross &amp;lt;dbl&amp;gt; 760505847, 658672302, 652177271, 623279547, 53331… ## $ budget &amp;lt;dbl&amp;gt; 2.</description>
+    </item>
+    
   </channel>
 </rss>
