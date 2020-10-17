@@ -76,34 +76,34 @@ ggplot(Comp_2director, aes(x = mean_rating,
         geom_text(aes(label = round(lower_ci, 2), x = lower_ci),
             hjust = 0.2,       
             vjust = -2,        
-            size  = 7,         
+            size  = 3.5,         
             color = "black") + 
   
   
         geom_text(aes(label = round(upper_ci, 2), x = upper_ci), 
             hjust = 0.2,       
             vjust = -2,        
-            size  = 7,         
+            size  = 3.5,         
             color = "black")+ 
   
         geom_text(aes(label = round(mean_rating, 2), x = mean_rating), 
             hjust = 0.2,       
             vjust = -1,      
-            size  = 10,         
+            size  = 5,         
             color = "black")+   
   
-        theme(plot.title=element_text(face="bold",size=20),
-              plot.subtitle=element_text(size=15),
-              axis.title = element_text(size = 15),
-              axis.text.y.left = element_text(size = 15, color = "black"),
-              axis.text.x.bottom = element_text(size = 15, color = "black"))
+        theme(plot.title=element_text(face="bold",size=10),
+              plot.subtitle=element_text(size=7.5),
+              axis.title = element_text(size = 7.5),
+              axis.text.y.left = element_text(size = 7.5, color = "black"),
+              axis.text.x.bottom = element_text(size = 7.5, color = "black"))
 
 
                            
 
 
 ```
-##Now, we are doing a hypothesis test 
+Now, we are doing a hypothesis test 
 H0: mean rating of Steven = mean rating of Tim
 H1: mean rating of Steven ≠ mean rating of Tim
 
