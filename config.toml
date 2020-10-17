@@ -138,12 +138,9 @@ disqusShortname = ""
   # Section Type Two
   [params.two]
     enable = true
-    title = "Massa libero"
-    subtitle = """Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero. 
-    Mauris aliquet magna magna sed nunc rhoncus pharetra. 
-    Pellentesque condimentum sem. In efficitur ligula tate urna. Maecenas laoreet massa vel lacinia pellentesque lorem ipsum dolor. 
-    Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis libero.
-    Mauris aliquet magna magna sed nunc rhoncus amet pharetra et feugiat tempus."""
+    title = "Jade Gu"
+    subtitle = """Born and raised in China, I went to McGill University for my undergraduate study. Now, I am a 
+    Masters in Financial Analysis student at London Business School."""
     buttonText = "Get Started"
     url = "blogs"
 
