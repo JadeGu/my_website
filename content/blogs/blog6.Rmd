@@ -71,7 +71,6 @@ ggplot(Comp_2director, aes(x = mean_rating,
         subtitle="95% confidence intervals overlap",
         x="Mean IMDB Rating",
         y="") +
-        theme_bw()+
 
         #adjust position of labels
         geom_text(aes(label = round(lower_ci, 2), x = lower_ci),
@@ -135,7 +134,6 @@ null_distri <- t_test %>%
 
 null_distri %>% 
   visualize +
-  theme_bw()+
   shade_p_value(obs_stat = obs_diff, direction = "both") #shade the area of p value
 
 
