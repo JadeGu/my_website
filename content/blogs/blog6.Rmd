@@ -4,20 +4,17 @@ output: html_document
 slug: blog6
 image: pic12.jpg
 ---
-CDC COVID-19 Public Use Data
-
 Let us revisit the [CDC Covid-19 Case Surveillance Data](https://data.cdc.gov/Case-Surveillance/COVID-19-Case-Surveillance-Public-Use-Data/vbim-akqf). There are well over 3 million entries of individual, de-identified patient data. Since this is a large file, we use `vroom` to load it and you keep `cache=TRUE` in the chunk options.
 
 
 First, we load the data
 ```{r, cache=TRUE}
 # file contains 11 variables and 3.66m rows and is well over 380Mb. 
-# It will take time to download
 
 # URL link to CDC to download data
 url <- "https://data.cdc.gov/api/views/vbim-akqf/rows.csv?accessType=DOWNLOAD"
 
-covid_data <- vroom::vroom(url)%>% # If vroom::vroom(url) doesn't work, use read_csv(url)
+covid_data <- vroom::vroom(url)%>% 
   clean_names()
 
 
