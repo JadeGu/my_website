@@ -95,7 +95,7 @@ disqusShortname = ""
       title = "IBM HR Analytics"
       subtitle = "Employee Attrition & Performane Analysis"
       image = "pic07.jpg"
-      url = "content/blogs/HR.html" 
+      url = "blogs/HR" 
 
     [[params.tiles.showcase]]
       title = "Tempus"
