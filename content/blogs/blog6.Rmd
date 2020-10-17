@@ -57,7 +57,7 @@ ggplot(Comp_2director, aes(x = mean_rating,
          
         #make CI error bars 
         geom_errorbar(aes(xmin = lower_ci, xmax = upper_ci, color = director),
-                      width = .1, size = 2, show.legend = FALSE)+
+                      width = .05, size = 2, show.legend = FALSE)+
   
         #fill the overlapping part with gray shadow
         geom_rect(aes(xmin = 7.26, 
