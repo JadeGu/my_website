@@ -4,10 +4,30 @@ output: html_document
 slug: blog6
 image: pic13.jpg
 ---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r load-libraries, include=FALSE}
+library(tidyverse)  
+library(mosaic)
+library(ggthemes)
+library(lubridate)
+library(here)
+library(skimr)
+library(janitor)
+library(httr)
+library(readxl)
+library(vroom)
+library(infer)
+library(blogdown)
+```
+
 ```{r load-movies-data}
 movies <- read_csv(here::here("data", "movies.csv"))
 glimpse(movies)
 ```
+
 In this project, I would like to test the difference between the ratings of Steven Spielberg and Tim Burton
 
 ```{r}
