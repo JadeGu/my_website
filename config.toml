@@ -98,10 +98,10 @@ disqusShortname = ""
       url = "blogs/blog5" 
 
     [[params.tiles.showcase]]
-      title = "Tempus"
-      subtitle = "Feugiat Amet Tempus"
-      image = "pic02.jpg"
-      url = "blogs/tempus"
+      title = "CDC COVID-19 Public Use Data"
+      subtitle = "Analysis of Death Rate"
+      image = "pic12.jpg"
+      url = "blogs/blog6"
 
     [[params.tiles.showcase]]
       title = "Magna"
