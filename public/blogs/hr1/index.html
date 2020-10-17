@@ -1,0 +1,407 @@
+<!DOCTYPE HTML>
+<html>
+
+    <head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<meta name="description" content="Hi there, I am a Masters in Financial Analysis student at London Business School.">
+	<meta name="author" content="Jade Gu">
+	<meta name="generator" content="Hugo 0.75.1" />
+	<title>IBM HR Analytics &middot; Portfolio Website for Jade Gu</title>
+	<!-- Stylesheets -->
+	
+	<link rel="stylesheet" href="/css/main.css"/>
+	
+	
+
+	
+
+	<!-- Custom Fonts -->
+	<link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+	
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+	<link rel="icon" type="image/x-icon" href="/favicon.ico">
+	
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	<script src="js/ie/html5shiv.js"></script>
+	<script src="js/ie/html5shiv.jsrespond.min.js"></script>
+	<![endif]-->
+</head>
+
+    <body>
+
+    <!-- Wrapper -->
+        <div id="wrapper">
+
+            <!-- Header -->
+    <header id="header" class="alt">
+        <a href="/" class="logo"><strong>Jade Gu</strong> <span>Class of 2021</span></a>
+        <nav>
+            <a href="#menu">Menu</a>
+        </nav>
+    </header>
+
+<!-- Menu -->
+    <nav id="menu">
+        <ul class="links">
+            
+                <li><a href="/">Home</a></li>
+            
+                <li><a href="/blogs">Blogs</a></li>
+            
+                <li><a href="/blogs/ipsum">Generic Blog</a></li>
+            
+                <li><a href="/elements.html">Elements</a></li>
+            
+
+        </ul>
+        <ul class="actions vertical">
+            
+                <li><a href="/blogs" class="button special fit">Get Started</a></li>
+            
+            
+                <li><a href="/" class="button fit">Log In</a></li>
+            
+        </ul>
+    </nav>
+
+        <!-- Main -->
+            <div id="main" class="alt">
+
+                
+                    <section id="one">
+                        <div class="inner">
+                            <header class="major">
+                                <h1>IBM HR Analytics</h1>
+                            </header>
+                            
+                            
+
+
+<p>For this task, I analysed a data set on Human Resoruce Analytics. The IBM HR Analytics Employee Attrition &amp; Performance data set is a fictional data set created by IBM data scientists. Among other things, the data set includes employees’ income, their distance from work, their position in the company, their level of education, etc. A full description can be found on the website.</p>
+<p>First we loaded the data</p>
+<pre class="r"><code>hr_dataset &lt;- read_csv(here::here(&quot;data&quot;, &quot;datasets_1067_1925_WA_Fn-UseC_-HR-Employee-Attrition.csv&quot;))</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_double(),
+##   Attrition = col_character(),
+##   BusinessTravel = col_character(),
+##   Department = col_character(),
+##   EducationField = col_character(),
+##   Gender = col_character(),
+##   JobRole = col_character(),
+##   MaritalStatus = col_character(),
+##   Over18 = col_character(),
+##   OverTime = col_character()
+## )</code></pre>
+<pre><code>## See spec(...) for full column specifications.</code></pre>
+<pre class="r"><code>glimpse(hr_dataset)</code></pre>
+<pre><code>## Rows: 1,470
+## Columns: 35
+## $ Age                      &lt;dbl&gt; 41, 49, 37, 33, 27, 32, 59, 30, 38, 36, 35, …
+## $ Attrition                &lt;chr&gt; &quot;Yes&quot;, &quot;No&quot;, &quot;Yes&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, &quot;No&quot;, …
+## $ BusinessTravel           &lt;chr&gt; &quot;Travel_Rarely&quot;, &quot;Travel_Frequently&quot;, &quot;Trave…
+## $ DailyRate                &lt;dbl&gt; 1102, 279, 1373, 1392, 591, 1005, 1324, 1358…
+## $ Department               &lt;chr&gt; &quot;Sales&quot;, &quot;Research &amp; Development&quot;, &quot;Research…
+## $ DistanceFromHome         &lt;dbl&gt; 1, 8, 2, 3, 2, 2, 3, 24, 23, 27, 16, 15, 26,…
+## $ Education                &lt;dbl&gt; 2, 1, 2, 4, 1, 2, 3, 1, 3, 3, 3, 2, 1, 2, 3,…
+## $ EducationField           &lt;chr&gt; &quot;Life Sciences&quot;, &quot;Life Sciences&quot;, &quot;Other&quot;, &quot;…
+## $ EmployeeCount            &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+## $ EmployeeNumber           &lt;dbl&gt; 1, 2, 4, 5, 7, 8, 10, 11, 12, 13, 14, 15, 16…
+## $ EnvironmentSatisfaction  &lt;dbl&gt; 2, 3, 4, 4, 1, 4, 3, 4, 4, 3, 1, 4, 1, 2, 3,…
+## $ Gender                   &lt;chr&gt; &quot;Female&quot;, &quot;Male&quot;, &quot;Male&quot;, &quot;Female&quot;, &quot;Male&quot;, …
+## $ HourlyRate               &lt;dbl&gt; 94, 61, 92, 56, 40, 79, 81, 67, 44, 94, 84, …
+## $ JobInvolvement           &lt;dbl&gt; 3, 2, 2, 3, 3, 3, 4, 3, 2, 3, 4, 2, 3, 3, 2,…
+## $ JobLevel                 &lt;dbl&gt; 2, 2, 1, 1, 1, 1, 1, 1, 3, 2, 1, 2, 1, 1, 1,…
+## $ JobRole                  &lt;chr&gt; &quot;Sales Executive&quot;, &quot;Research Scientist&quot;, &quot;La…
+## $ JobSatisfaction          &lt;dbl&gt; 4, 2, 3, 3, 2, 4, 1, 3, 3, 3, 2, 3, 3, 4, 3,…
+## $ MaritalStatus            &lt;chr&gt; &quot;Single&quot;, &quot;Married&quot;, &quot;Single&quot;, &quot;Married&quot;, &quot;M…
+## $ MonthlyIncome            &lt;dbl&gt; 5993, 5130, 2090, 2909, 3468, 3068, 2670, 26…
+## $ MonthlyRate              &lt;dbl&gt; 19479, 24907, 2396, 23159, 16632, 11864, 996…
+## $ NumCompaniesWorked       &lt;dbl&gt; 8, 1, 6, 1, 9, 0, 4, 1, 0, 6, 0, 0, 1, 0, 5,…
+## $ Over18                   &lt;chr&gt; &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;,…
+## $ OverTime                 &lt;chr&gt; &quot;Yes&quot;, &quot;No&quot;, &quot;Yes&quot;, &quot;Yes&quot;, &quot;No&quot;, &quot;No&quot;, &quot;Yes&quot;…
+## $ PercentSalaryHike        &lt;dbl&gt; 11, 23, 15, 11, 12, 13, 20, 22, 21, 13, 13, …
+## $ PerformanceRating        &lt;dbl&gt; 3, 4, 3, 3, 3, 3, 4, 4, 4, 3, 3, 3, 3, 3, 3,…
+## $ RelationshipSatisfaction &lt;dbl&gt; 1, 4, 2, 3, 4, 3, 1, 2, 2, 2, 3, 4, 4, 3, 2,…
+## $ StandardHours            &lt;dbl&gt; 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, …
+## $ StockOptionLevel         &lt;dbl&gt; 0, 1, 0, 0, 1, 0, 3, 1, 0, 2, 1, 0, 1, 1, 0,…
+## $ TotalWorkingYears        &lt;dbl&gt; 8, 10, 7, 8, 6, 8, 12, 1, 10, 17, 6, 10, 5, …
+## $ TrainingTimesLastYear    &lt;dbl&gt; 0, 3, 3, 3, 3, 2, 3, 2, 2, 3, 5, 3, 1, 2, 4,…
+## $ WorkLifeBalance          &lt;dbl&gt; 1, 3, 3, 3, 3, 2, 2, 3, 3, 2, 3, 3, 2, 3, 3,…
+## $ YearsAtCompany           &lt;dbl&gt; 6, 10, 0, 8, 2, 7, 1, 1, 9, 7, 5, 9, 5, 2, 4…
+## $ YearsInCurrentRole       &lt;dbl&gt; 4, 7, 0, 7, 2, 7, 0, 0, 7, 7, 4, 5, 2, 2, 2,…
+## $ YearsSinceLastPromotion  &lt;dbl&gt; 0, 1, 0, 3, 2, 3, 0, 0, 1, 7, 0, 0, 4, 1, 0,…
+## $ YearsWithCurrManager     &lt;dbl&gt; 5, 7, 0, 0, 2, 6, 0, 0, 8, 7, 3, 8, 3, 2, 3,…</code></pre>
+<p>We cleaned the data set, as variable names are in capital letters, some variables are not really necessary, and some variables, e.g., <code>education</code> are given as a number rather than a more useful description</p>
+<pre class="r"><code>hr_cleaned &lt;- hr_dataset %&gt;%  #cleaned the data with only useful information
+  clean_names() %&gt;% 
+  mutate(
+    education = case_when(
+      education == 1 ~ &quot;Below College&quot;,
+      education == 2 ~ &quot;College&quot;,
+      education == 3 ~ &quot;Bachelor&quot;,
+      education == 4 ~ &quot;Master&quot;,
+      education == 5 ~ &quot;Doctor&quot;
+    ),
+    environment_satisfaction = case_when(
+      environment_satisfaction == 1 ~ &quot;Low&quot;,
+      environment_satisfaction == 2 ~ &quot;Medium&quot;,
+      environment_satisfaction == 3 ~ &quot;High&quot;,
+      environment_satisfaction == 4 ~ &quot;Very High&quot;
+    ),
+    job_satisfaction = case_when(
+      job_satisfaction == 1 ~ &quot;Low&quot;,
+      job_satisfaction == 2 ~ &quot;Medium&quot;,
+      job_satisfaction == 3 ~ &quot;High&quot;,
+      job_satisfaction == 4 ~ &quot;Very High&quot;
+    ),
+    performance_rating = case_when(
+      performance_rating == 1 ~ &quot;Low&quot;,
+      performance_rating == 2 ~ &quot;Good&quot;,
+      performance_rating == 3 ~ &quot;Excellent&quot;,
+      performance_rating == 4 ~ &quot;Outstanding&quot;
+    ),
+    work_life_balance = case_when(
+      work_life_balance == 1 ~ &quot;Bad&quot;,
+      work_life_balance == 2 ~ &quot;Good&quot;,
+      work_life_balance == 3 ~ &quot;Better&quot;,
+      work_life_balance == 4 ~ &quot;Best&quot;
+    )
+  ) %&gt;% 
+  select( #select the items I am going to analyse
+    age, attrition, daily_rate, department,
+         distance_from_home, education,
+         gender, job_role,environment_satisfaction,
+         job_satisfaction, marital_status,
+         monthly_income, num_companies_worked, percent_salary_hike,
+         performance_rating, total_working_years,
+         work_life_balance, years_at_company,
+         years_since_last_promotion
+    )</code></pre>
+<p>1.Plot a boxplot of income vs job role. Make sure the highest-paid job roles appear first</p>
+<pre class="r"><code>ggplot(hr_cleaned, aes(x = monthly_income, y =reorder(job_role,monthly_income,na.rm=TRUE)))+
+  
+  #define the plot as boxplot, and change the filling color
+  geom_boxplot(fill=&quot;#DD0000&quot;) + 
+  
+  #change the graph&#39;s title
+  ggtitle(&quot;Relationship between job role and monthly income&quot;) +
+  
+  #add some labels
+  labs(x=&quot;Monthly Income&quot;, y=&quot;Job Role&quot;) +
+  
+  #change the theme
+  theme(panel.background = element_rect(colour = &quot;White&quot;)) + 
+  theme_light() +
+  NULL</code></pre>
+<p><img src="/blogs/HR1_files/figure-html/unnamed-chunk-3-1.png" width="672" />
+The first two highest paid roles are Manager and Research Director, with median pay ranging between 15k to 17.5k dollars. The lowest paid role is Sales Representatives.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Calculate and plot a bar chart of the median income by education level code as above</li>
+</ol>
+<pre class="r"><code>#create a new dataframe
+income_median &lt;- hr_cleaned %&gt;% 
+  group_by(education) %&gt;% 
+  summarize(median_incomebyedu = median(monthly_income))</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre class="r"><code>#make the graph
+ggplot(income_median, aes(x = median_incomebyedu, y=education))+
+  
+  #define the plot as col-plot, and change the filling color and width
+  geom_col(fill=&quot;#DD0000&quot;, width=0.7)+
+  
+  #change the graph&#39;s title
+  ggtitle(&quot;Relationship between the level of education and median income&quot;) +
+  
+  #add some labels
+  labs(x=&quot;Median Income&quot;, y=&quot;Level of education&quot;) +
+  
+  #change the theme
+  theme(panel.background = element_rect(colour = &quot;White&quot;)) + 
+  theme_light() +
+  NULL</code></pre>
+<p><img src="/blogs/HR1_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+The median income by education leverl ranked in order are Doctor, Master, College, Bachelor and Below College. So generally, the higher level of education you get, the higher pay you get. The exception is at the Bachelor level, which is lower than College.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>Plot the distribution of income by education level. Use a facet_wrap and a theme from <code>ggthemes</code> code</li>
+</ol>
+<pre class="r"><code>ggplot(hr_cleaned, aes(x = monthly_income))+
+  
+  #group the graphs by education levels
+  facet_wrap(~education)+
+  
+  geom_histogram(fill=&quot;#DD0000&quot;)+
+  
+  ggtitle(&quot;Distribution of income by education level&quot;) +
+  
+  labs(x=&quot;Monthly Income&quot;, y=&quot;Distribution&quot;) +
+  
+  theme(panel.background = element_rect(colour = &quot;White&quot;)) + 
+  theme_light() +
+  NULL</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="/blogs/HR1_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<ol start="4" style="list-style-type: decimal">
+<li>Plot income vs age, faceted by <code>job_role</code></li>
+</ol>
+<pre class="r"><code>ggplot(hr_cleaned, aes(x = age, y = monthly_income))+
+  
+  #group the graphs by different departments
+  facet_wrap(~job_role)+
+  
+  geom_col(fill=&quot;#DD0000&quot;, width=0.7)+
+  
+  ggtitle(&quot;Relationship between income and age by job role&quot;) +
+  
+  labs(x=&quot;Age&quot;, y=&quot;Monthly Income&quot;) +
+  
+  theme(panel.background = element_rect(colour = &quot;White&quot;)) + 
+  
+  theme_light() +
+  NULL</code></pre>
+<p><img src="/blogs/HR1_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<ol start="5" style="list-style-type: decimal">
+<li>How often do people leave the company (attrition)</li>
+</ol>
+<p>Out of 1407 samples, there are 237 “Yes” in the column of “attrition”. So, roughly 16.8% of employees tend to leave the company. The retention rate is around 83.2%, which in our opinion, is a modestly good rate of retention and means that people are generally satisfied with their current work.</p>
+<ol start="6" style="list-style-type: decimal">
+<li>How are <code>age</code>, <code>years_at_company</code>, <code>monthly_income</code> and <code>years_since_last_promotion</code> distributed? can you roughly guess which of these variables is closer to Normal just by looking at summary statistics?</li>
+</ol>
+<pre class="r"><code>ggplot(hr_cleaned, aes(x=age)) + 
+  
+  geom_histogram(fill=&quot;#DD0000&quot;, bins=20) + 
+  
+  ggtitle(&quot;Distrubtion of age&quot;) +
+  
+  labs(x=&quot;Age&quot;, y=&quot;Distribution&quot;) +
+  
+  theme(panel.background = element_rect(colour = &quot;White&quot;)) + 
+  theme_light() +
+  NULL</code></pre>
+<p><img src="/blogs/HR1_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(hr_cleaned, aes(x=years_at_company)) + 
+  
+  geom_histogram(fill=&quot;#DD0000&quot;, bins=20) +
+  
+  ggtitle(&quot;Distrubtion of tenure&quot;) +
+  
+  labs(x=&quot;Years spent at company&quot;, y=&quot;Distribution&quot;) +
+  
+  theme(panel.background = element_rect(colour = &quot;White&quot;)) + 
+  theme_light() +
+  NULL</code></pre>
+<p><img src="/blogs/HR1_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(hr_cleaned, aes(x=monthly_income)) + 
+  
+  geom_histogram(fill=&quot;#DD0000&quot;, bins=20) + 
+  
+  ggtitle(&quot;Distrubtion of monthly income&quot;) +
+  
+  labs(x=&quot;Monthly Income&quot;, y=&quot;Distribution&quot;) +
+  
+  theme(panel.background = element_rect(colour = &quot;White&quot;)) + 
+  theme_light() + 
+  NULL</code></pre>
+<p><img src="/blogs/HR1_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(hr_cleaned, aes(x = years_since_last_promotion)) +
+  
+  geom_histogram(fill=&quot;#DD0000&quot;, bins=20) + 
+  
+  ggtitle(&quot;Distrubtion of years since last promotion&quot;) +
+  
+  labs(x=&quot;Years since last promotion&quot;, y=&quot;Distribution&quot;) +
+  
+  theme(panel.background = element_rect(colour = &quot;White&quot;)) + 
+  theme_light() + 
+  NULL</code></pre>
+<p><img src="/blogs/HR1_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>For age, it ranges from 18 to 60 years old, with the majority of people at their 30s and 40s. The distribution of age is slightly right skewed. For years at company, the majority of people have stayed in the company for less than 10 years - actually, only 246 out of 1407 employees have been in the company for over 10 years. So the distribution of years at company is highly right skewed. For monthly income, it ranges from 1009 to 19999 dollars. However, the majority of people are getting payment under 6000 dollars per month. So the distribution of monthly income is highly right skewed. For years since last promotion, it ranges from 0 to 15 years, and the majority of people have that number below 5, so it is also highly right skewed distributed.</p>
+<ol start="7" style="list-style-type: decimal">
+<li>How are <code>job_satisfaction</code> and <code>work_life_balance</code> distributed? Don’t just report counts, but express categories as % of total</li>
+</ol>
+<p>442 out of 1407 reported job satisfaction as high, which accounts for 31% of total employees.289 out of 1407 reported job satisfaction as low, which accounts for 21% of total employees.676 out of 1407 reported job satisfaction as medium, which accounts for 48% of total employees. For work life balance, 80 out of 1407 reported work life balance as bad, which accounts for 5.7% of total employees. 281 out of 1407 reported work life balance as good, which accounts for 20% of total employees. 893 out of 1407 reported work life balance as better, which accounts for 63.5% of total employees. 153 out of 1407 reported work life balance as best, which accounts for 10.9% of total employees.</p>
+<ol start="8" style="list-style-type: decimal">
+<li>Is there any relationship between monthly income and education? Monthly income and gender?</li>
+</ol>
+<pre class="r"><code>ggplot(hr_cleaned, aes(x = monthly_income, y= education)) +
+  
+  geom_col(fill=&quot;#DD0000&quot;, width=0.7) + 
+  
+  ggtitle(&quot;Relationship between monthly income and education&quot;) +
+  
+  labs(x=&quot;Monthly Income&quot;, y=&quot;Level of education&quot;) +
+  
+  theme(panel.background = element_rect(colour = &quot;White&quot;)) + 
+  theme_light() +
+  NULL</code></pre>
+<p><img src="/blogs/HR1_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(hr_cleaned, aes(x = monthly_income, y= gender)) +
+  
+  geom_col(fill=&quot;#DD0000&quot;, width=0.5) + 
+  
+  ggtitle(&quot;Relationship between monthly income and gender&quot;) +
+  
+  labs(x=&quot;Monthly Income&quot;, y=&quot;Gender&quot;) +
+  
+  theme(panel.background = element_rect(colour = &quot;White&quot;)) + 
+  theme_light() +
+  NULL</code></pre>
+<p><img src="/blogs/HR1_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>For the relationship between monthly income and education, bachelor gets the highest, then it is master, college,below college and doctor in a descending order. For the relationship between monthly income and gender, male get paid more than female.</p>
+
+                        </div>
+                    </section>
+            <!-- Disqus Inject -->
+                
+            </div>
+            
+        <!-- Footer -->
+            
+                <!-- Footer -->
+    <footer id="footer">
+        <div class="inner">
+            <ul class="icons">
+                
+                    <li><a href="https://github.com/JadeGu/my_website" class="icon alt fa-github" target="_blank"><span class="label">GitHub</span></a></li>
+                
+                    <li><a href="https://www.linkedin.com/in/jade-gu/" class="icon alt fa-linkedin" target="_blank"><span class="label">LinkedIn</span></a></li>
+                
+            </ul>
+            <ul class="copyright">
+                <li>&copy; Company Name</li>
+                
+                <li>Design:  <a href="https://www.html5up.net">HTML5 UP</a></li>
+                
+            </ul>
+        </div>
+    </footer>
+
+            
+        </div>
+
+    <!-- Scripts -->
+        <!-- Scripts -->
+    <!-- jQuery -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+
+    
+
+    <!-- Main JS -->
+    <script src="/js/main.js"></script>
+
+    
+
+    
+
+    </body>
+</html>

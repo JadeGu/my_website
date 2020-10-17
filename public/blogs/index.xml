@@ -45,10 +45,10 @@
     
     <item>
       <title>IBM HR Analytics</title>
-      <link>/blogs/hr/</link>
+      <link>/blogs/blog5/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/blogs/hr/</guid>
+      <guid>/blogs/blog5/</guid>
       <description>For this task, I analysed a data set on Human Resoruce Analytics. The IBM HR Analytics Employee Attrition &amp;amp; Performance data set is a fictional data set created by IBM data scientists. Among other things, the data set includes employees’ income, their distance from work, their position in the company, their level of education, etc. A full description can be found on the website.
 First we loaded the data</description>
     </item>
