@@ -1,78 +1,164 @@
 ---
-title: "CDC COVID-19 Public Use Data"
+title: "Rentals in Tfl bike sharing"
 output: html_document
 slug: blog6
 image: pic12.jpg
 ---
-Let us revisit the [CDC Covid-19 Case Surveillance Data](https://data.cdc.gov/Case-Surveillance/COVID-19-Case-Surveillance-Public-Use-Data/vbim-akqf). There are well over 3 million entries of individual, de-identified patient data. Since this is a large file, we use `vroom` to load it and you keep `cache=TRUE` in the chunk options.
+Excess rentals in TfL bike sharing
 
+We recall the TfL data on how many bikes were hired every single day. We can get the latest data by running the following
 
-First, we load the data
-```{r, cache=TRUE}
+```{r, get_tfl_data, cache=TRUE}
+url <- "https://data.london.gov.uk/download/number-bicycle-hires/ac29363e-e0cb-47cc-a97a-e216d900a6b0/tfl-daily-cycle-hires.xlsx"
 
-# URL link to CDC to download data
-url <- "https://data.cdc.gov/api/views/vbim-akqf/rows.csv?accessType=DOWNLOAD"
+# Download TFL data to temporary file
+httr::GET(url, write_disk(bike.temp <- tempfile(fileext = ".xlsx")))
 
-covid_data <- vroom(url)%>%
-  clean_names()
+# Use read_excel to read it as dataframe
+bike0 <- read_excel(bike.temp,
+                   sheet = "Data",
+                   range = cell_cols("A:B"))
 
+# change dates to get year, month, and week
+bike <- bike0 %>% 
+  clean_names() %>% 
+  rename (bikes_hired = number_of_bicycle_hires) %>% 
+  mutate (year = year(day),
+          month = lubridate::month(day, label = TRUE),
+          week = isoweek(day))
+
+library(scales)
 ```
 
-Given the data we have, we produce two graphs that show death % rate:
+We can easily create a facet grid that plots bikes hired by month and year.
 
-1. by age group, sex, and whether the patient had co-morbidities or not
-
-```{r}
-remove_items=c("Missing", "Unknown", "Other", NA) #items to remove
-
-death_rate_comord <- covid_data %>% 
-  select(sex, age_group, medcond_yn, death_yn) %>% 
-  filter(!(sex %in% remove_items),!(age_group %in% remove_items), !(death_yn %in% remove_items) , !(medcond_yn %in% remove_items)) %>% #filter each group by removing items above
-  #add two columns to quantify if the patient has died or not, and wheter he/she has cormorbidities
-  mutate(ifdead = ifelse(death_yn=="Yes", 1, 0), 
-         comorbidty= ifelse(medcond_yn=="Yes", "With comorbidities", "Without comorbidities")) %>% 
-  #group by age, sex and co-morbidities
-  group_by(age_group, sex, comorbidty) %>% 
-  summarize(deathrate1 = prop(ifdead)) #yield the death rate
-
-#ggplot, facet by comorbidty in row and sex in column
-ggplot(death_rate_comord, aes(x=deathrate1, y=age_group)) +
-  geom_col(fill="#191970", alpha=0.7) +
-  facet_grid(rows= vars(comorbidty), cols= vars(sex))+
-  #make the graph more visualizable 
-  geom_text(aes(label=round(deathrate1*100, 1)),size=2, hjust= -0.1)+
-  labs (title = "Covid death % by age group, sex and presence of co-morbidities", x = "Death Rate", y = "Age Group")+
-  theme_bw()
-
-```
-By age group, the elderly people tend to have a higher covid death rate. By sex, female has a slightly lower covid death rate than male. Additionally, people with comorbidities tend to have higher covid death rate.
-
-
-
-2. by age group, sex, and whether the patient was admited to Intensive Care Unit (ICU) or not.
-
-```{r}
-remove_items=c("Missing", "Unknown", "Other", NA) #items to remove
-
-death_rate_icu <- covid_data %>% 
-  select(sex, age_group, icu_yn, death_yn) %>% 
-  filter(!(sex %in% remove_items),!(age_group %in% remove_items), !(death_yn %in% remove_items) , !(icu_yn %in% remove_items)) %>% #filter each group by removing items above
-  #add two columns to quantify if the patient has died or not, and wheter he/she has admitted to ICU
-  mutate(ifdead = ifelse(death_yn=="Yes", 1, 0), 
-         icu= ifelse(icu_yn=="Yes", "Admitted to ICU", "No ICU")) %>% 
-  #group by age, sex and ICU
-  group_by(age_group, sex, icu) %>% 
-  summarize(deathrate2 = prop(ifdead))
-
-#ggplot, facet by ICU in row and sex in column
-ggplot(death_rate_icu, aes(x=deathrate2, y=age_group)) +
-  geom_col(fill="#FF6347", alpha = 0.7) +
-  facet_grid(rows= vars(icu), cols= vars(sex))+
-  #make the graph more visualizable 
-  geom_text(aes(label=round(deathrate2*100, 1)),size=2, hjust= -0.1)+
-  labs (title = "Covid death % by age group, sex and whether patient was admitted to ICU", x = "Death Rate", y = "Age Group")+
-  theme_bw()
-
+```{r tfl_month_year_grid, echo=FALSE, out.width="100%"}
+knitr::include_graphics(here::here("images", "tfl_distributions_monthly.png"), error = FALSE)
 ```
 
-By age group, the elderly people tend to have a higher covid death rate. By sex, female has a slightly lower covid death rate than male in almost every age group. Additionally, people who were admitted to ICU tend to have higher covid death rate.
+We look at May and Jun and compare 2020 with the previous years. 
+
+There is a greater standard deviation in bike rentals as they are more spread out compared to the previous years, even though there are still peaks around 40k.
+
+Next, we reproduce the following two graphs.
+
+```{r tfl_absolute_monthly_change, out.width="100%"}
+knitr::include_graphics(here::here("images", "tfl_monthly.png"), error = FALSE)
+
+#calculate the actual monthly return 
+actual_monthly<-bike %>% 
+                filter(year>=2015) %>% 
+                group_by(year,month) %>% #monthly for the same year
+                summarize(actual_m=ave(bikes_hired))
+
+#calculate the expected monthly return 
+expected_monthly<- actual_monthly %>% 
+                   group_by(month) %>% #same month for 2015-2019
+                   summarize(expected_m=median(actual_m))
+
+#join the two data frames into one
+monthly<- full_join(actual_monthly,expected_monthly, by="month")
+
+#create max and min for conditional coloring  
+monthly<- monthly %>% 
+          mutate(excess_m=actual_m-expected_m, 
+                 month=as.double(month),
+                 max=if_else(excess_m>0,actual_m,
+                             if_else(excess_m<=0,expected_m,0)),
+                 min=if_else(excess_m<0,actual_m,
+                             if_else(excess_m>=0,expected_m,0)))
+
+#change characters into numerical values that can be plotted
+ordered(monthly$month, levels = c("Jan", "Feb", "Mar", "Apr", "May","Jun","Jul"
+                                  ,"Aug","Sep","Oct","Nov","Dec"))
+
+glimpse(monthly)
+
+#next, we make the plot                
+plot1<-ggplot(monthly)+
+      geom_line(aes(x=month,y=expected_m),color="Blue")+
+      geom_line(aes(x=month,y=actual_m),color="Black")+
+      geom_ribbon(aes(x=month,ymin=min,ymax=expected_m),#for actual<expected
+                  fill='#EAB5B7',alpha=0.6)+
+      geom_ribbon(aes(x=month,ymin=expected_m,ymax=max),#for actual>expected
+                  fill='#CBEBCE',alpha=0.6)+
+      labs(y="Bike rentals",title="Monthly changes in TFL bike rentals",
+           subtitle="Change from monthly average shown in blue\ncalculated between 2015-2019",
+           caption = "Source: Tfl,London Data Store")+
+      scale_x_continuous(breaks = c(1,2,3,4,5,6,7,8,9,10,11,12),
+                         labels = c("Jan", "Feb", "Mar", "Apr", "May","Jun",
+                                    "Jul","Aug","Sep","Oct","Nov","Dec"))+
+      scale_y_continuous()+
+      theme_minimal()+
+      facet_wrap(~year)+
+      theme(axis.title.x = element_blank(),
+            plot.title = element_text(size=18,face="bold"),
+            plot.subtitle=element_text(size=15),
+            strip.text = element_text(size=8),
+            axis.text.x = element_text(size=6),
+            axis.text.y = element_text(size=7),
+            plot.caption = element_text(size=6,hjust = 1))+
+  NULL
+      
+plot(plot1)
+```
+
+The second one looks at percentage changes from the expected level of weekly rentals. The two grey shaded rectangles correspond to the second (weeks 14-26) and fourth (weeks 40-52) quarters.
+
+```{r tfl_percent_change, out.width="100%"}
+knitr::include_graphics(here::here("images", "tfl_weekly.png"), error = FALSE)
+
+#calculate the actual weekly return 
+actual_weekly<-bike %>% 
+                filter(year>=2015) %>% 
+                group_by(year,month,week) %>% 
+                summarize(actual_w=mean(bikes_hired)) #used to be ave(bikes_hired)???
+
+#calculate the expected weekly return 
+expected_weekly<- actual_weekly %>% 
+                   group_by(week) %>% 
+                   summarize(expected_w=median(actual_w))
+
+#join the two data frames
+weekly<- full_join(actual_weekly,expected_weekly, by="week")
+
+#create max and min for conditional coloring   
+weekly<- weekly %>% 
+          mutate(excess_w=actual_w-expected_w, 
+                 perc_change=excess_w/expected_w,
+                 max=if_else(perc_change>0,perc_change,0),
+                 min=if_else(perc_change<0,perc_change,0))
+
+#next, we make the plot 
+plot2<-ggplot(weekly)+ geom_line(aes(x=week,y=perc_change))+
+      geom_rect(aes(xmin=14,xmax=26,ymin=-0.7, #rectangle for 2nd quarter
+                    ymax=0.6),fill='#E7E6E6',alpha=0.03)+
+      geom_rect(aes(xmin=40,xmax=52,ymin=-0.7, #rectangle for 4th quarter
+                    ymax=0.6),fill='#E7E6E6',alpha=0.03)+
+      geom_ribbon(aes(x=week,ymin=min,         #when actual<expected
+                      ymax=perc_change),fill='#CBEBCE')+
+      geom_ribbon(aes(x=week,                  #when actual>expected
+                      ymin=perc_change,ymax=max),fill='#EAB5B7')+
+      geom_rug(mapping=aes(x=week), color=    #conditional coloring of geom_rug
+                 if_else(weekly$perc_change>0,
+                         '#CBEBCE','#EAB5B7'),sides="b")+
+      labs(x="week",title="Weekly changes in TFL bike rentals",
+           subtitle="% Change from weekly averages\ncalculated between 2015-2019",
+           caption = "Source: Tfl,London Data Store")+
+      scale_x_continuous(breaks = seq(13,53,by=13))+
+      scale_y_continuous(breaks = seq(-0.6,0.6,by=0.3),
+                         labels = scales::percent)+
+      theme_minimal()+
+      facet_wrap(~year)+
+       theme(axis.title.y = element_blank(), 
+            axis.title.x = element_blank(),
+            plot.title = element_text(size=15,face="bold"),
+            plot.subtitle=element_text(size=13),
+            strip.text = element_text(size=8),
+            axis.text.x = element_text(size=7),
+            axis.text.y = element_text(size=7),
+            plot.caption=element_text(size = 7,hjust = 1))+
+  NULL
+
+plot(plot2)
+```
