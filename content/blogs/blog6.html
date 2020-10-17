@@ -58,11 +58,11 @@ ggplot(Comp_2director, aes(x = mean_rating,
                            y = reorder(director, mean_rating),
                            group = director))+
   
-        geom_point(aes(color = director), size = 5, show.legend=FALSE) +
+        geom_point(aes(color = director), size = 2, show.legend=FALSE) +
          
         #make CI error bars 
         geom_errorbar(aes(xmin = lower_ci, xmax = upper_ci, color = director),
-                      width = .1, size = 5, show.legend = FALSE)+
+                      width = .1, size = 2, show.legend = FALSE)+
   
         #fill the overlapping part with gray shadow
         geom_rect(aes(xmin = 7.26, 
@@ -98,13 +98,13 @@ ggplot(Comp_2director, aes(x = mean_rating,
             size  = 5,         
             color = &quot;black&quot;)+   
   
-        theme(plot.title=element_text(face=&quot;bold&quot;,size=10),
+        theme(plot.title=element_text(face=&quot;bold&quot;,size=5),
               plot.subtitle=element_text(size=7.5),
               axis.title = element_text(size = 7.5),
               axis.text.y.left = element_text(size = 7.5, color = &quot;black&quot;),
               axis.text.x.bottom = element_text(size = 7.5, color = &quot;black&quot;))</code></pre>
-<p><img src="/blogs/blog6_files/figure-html/unnamed-chunk-1-1.png" width="672" />
-Now, we are doing a hypothesis test
+<p><img src="/blogs/blog6_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>Now, we are doing a hypothesis test
 H0: mean rating of Steven = mean rating of Tim
 H1: mean rating of Steven ≠ mean rating of Tim</p>
 <p>Conducting a t-test:</p>
