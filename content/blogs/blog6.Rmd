@@ -14,7 +14,7 @@ First, we load the data
 # URL link to CDC to download data
 url <- "https://data.cdc.gov/api/views/vbim-akqf/rows.csv?accessType=DOWNLOAD"
 
-covid_data <- vroom::vroom(url)%>% 
+covid_data <- read_csv(url)%>% 
   clean_names()
 
 
