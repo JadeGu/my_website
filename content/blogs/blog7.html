@@ -51,8 +51,8 @@ ggplot(death_rate_comord, aes(x=deathrate1, y=age_group)) +
   #make the graph more visualizable 
   geom_text(aes(label=round(deathrate1*100, 1)),size=2, hjust= -0.1)+
   labs (title = &quot;Covid death % by age group, sex and presence of co-morbidities&quot;, x = &quot;Death Rate&quot;, y = &quot;Age Group&quot;)</code></pre>
-<p><img src="/blogs/blog7_files/figure-html/unnamed-chunk-2-1.png" width="672" />
-By age group, the elderly people tend to have a higher covid death rate. By sex, female has a slightly lower covid death rate than male. Additionally, people with comorbidities tend to have higher covid death rate.</p>
+<p><img src="/blogs/blog7_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>By age group, the elderly people tend to have a higher covid death rate. By sex, female has a slightly lower covid death rate than male. Additionally, people with comorbidities tend to have higher covid death rate.</p>
 <ol start="2" style="list-style-type: decimal">
 <li>by age group, sex, and whether the patient was admited to Intensive Care Unit (ICU) or not.</li>
 </ol>
@@ -82,4 +82,3 @@ ggplot(death_rate_icu, aes(x=deathrate2, y=age_group)) +
   labs (title = &quot;Covid death % by age group, sex and whether patient was admitted to ICU&quot;, x = &quot;Death Rate&quot;, y = &quot;Age Group&quot;)</code></pre>
 <p><img src="/blogs/blog7_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>By age group, the elderly people tend to have a higher covid death rate. By sex, female has a slightly lower covid death rate than male in almost every age group. Additionally, people who were admitted to ICU tend to have higher covid death rate.</p>
-<p><img src="/Users/jadegu/Desktop/Data Analytics/my_website/images/covid_death_rate_comorbidities.png" width="100%" /><img src="/Users/jadegu/Desktop/Data Analytics/my_website/images/covid_death_rate_icu.png" width="100%" /></p>

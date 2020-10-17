@@ -71,6 +71,7 @@ ggplot(death_rate_comord, aes(x=deathrate1, y=age_group)) +
   labs (title = "Covid death % by age group, sex and presence of co-morbidities", x = "Death Rate", y = "Age Group")
 
 ```
+
 By age group, the elderly people tend to have a higher covid death rate. By sex, female has a slightly lower covid death rate than male. Additionally, people with comorbidities tend to have higher covid death rate.
 
 
@@ -106,10 +107,3 @@ ggplot(death_rate_icu, aes(x=deathrate2, y=age_group)) +
 ```
 
 By age group, the elderly people tend to have a higher covid death rate. By sex, female has a slightly lower covid death rate than male in almost every age group. Additionally, people who were admitted to ICU tend to have higher covid death rate.
-
-
-```{r covid_challenge, echo=FALSE, out.width="100%"}
-knitr::include_graphics(here::here("images", "covid_death_rate_comorbidities.png"), error = FALSE)
-knitr::include_graphics(here::here("images", "covid_death_rate_icu.png"), error = FALSE)
-```
-
